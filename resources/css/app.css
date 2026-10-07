@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 200 15% 12%;
+        --card: 0 0% 100%;
+        --card-foreground: 200 15% 12%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 200 15% 12%;
+        --primary: 2 85% 58%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 178 40% 95%;
+        --secondary-foreground: 178 55% 22%;
+        --muted: 180 12% 96%;
+        --muted-foreground: 200 12% 45%;
+        --accent: 178 55% 92%;
+        --accent-foreground: 178 70% 20%;
+        --destructive: 348 68% 45%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 180 12% 90%;
+        --input: 180 12% 90%;
+        --ring: 2 85% 58%;
+        --chart-1: 2 85% 58%;
+        --chart-2: 178 65% 42%;
+        --chart-3: 200 70% 50%;
+        --chart-4: 40 85% 55%;
+        --chart-5: 340 65% 60%;
+        --radius: 0.5rem;
+        --sidebar-background: 180 20% 98%;
+        --sidebar-foreground: 200 15% 20%;
+        --sidebar-primary: 2 85% 58%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 178 55% 92%;
+        --sidebar-accent-foreground: 178 70% 20%;
+        --sidebar-border: 180 12% 90%;
+        --sidebar-ring: 2 85% 58%;
+    }
+
+    .dark {
+        --background: 200 20% 8%;
+        --foreground: 180 10% 96%;
+        --card: 200 18% 11%;
+        --card-foreground: 180 10% 96%;
+        --popover: 200 18% 11%;
+        --popover-foreground: 180 10% 96%;
+        --primary: 2 80% 62%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 200 15% 16%;
+        --secondary-foreground: 180 10% 96%;
+        --muted: 200 15% 14%;
+        --muted-foreground: 180 10% 62%;
+        --accent: 178 45% 22%;
+        --accent-foreground: 178 75% 82%;
+        --destructive: 348 65% 55%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 200 15% 18%;
+        --input: 200 15% 18%;
+        --ring: 2 80% 62%;
+        --chart-1: 2 80% 62%;
+        --chart-2: 178 60% 52%;
+        --chart-3: 200 70% 62%;
+        --chart-4: 40 80% 60%;
+        --chart-5: 340 65% 65%;
+        --sidebar-background: 200 20% 10%;
+        --sidebar-foreground: 180 10% 92%;
+        --sidebar-primary: 2 80% 62%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 178 45% 22%;
+        --sidebar-accent-foreground: 178 75% 82%;
+        --sidebar-border: 200 15% 18%;
+        --sidebar-ring: 2 80% 62%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    button:not(:disabled),
+    [role='button']:not(:disabled) {
+        @apply cursor-pointer;
+    }
+}
