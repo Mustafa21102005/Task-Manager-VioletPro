@@ -115,7 +115,7 @@ export interface CalendarDay {
 export interface TaskFilters {
     category?: string | null;
     priority?: string | null;
-    completed?: string | boolean | null;
+    open?: string | boolean | null;
     search?: string | null;
     date_from?: string | null;
     date_to?: string | null;

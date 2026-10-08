@@ -34,8 +34,8 @@ class TaskController extends Controller
             ->when($request->string('priority')->toString(), function ($query, $priority) {
                 $query->where('priority', $priority);
             })
-            ->when($request->boolean('completed', null), function ($query) {
-                $query->where('is_completed', true);
+            ->when($request->boolean('open'), function ($query) {
+                $query->where('is_completed', false);
             })
             ->when($request->string('search')->trim()->toString(), function ($query, $search) {
                 $query->where('title', 'like', '%' . addcslashes($search, '%_\\') . '%');
@@ -74,7 +74,7 @@ class TaskController extends Controller
             'filters' => $request->only([
                 'category',
                 'priority',
-                'completed',
+                'open',
                 'search',
                 'date_from',
                 'date_to',
