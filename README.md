@@ -2,8 +2,6 @@
 
 A personal task manager built with **Laravel**, **Inertia.js** and **Vue 3**. It started as an internship project and as a way to learn Inertia, and it grew into a small but complete app: tasks, categories, repeating tasks, a calendar, a dashboard with streaks, and in-app reminders.
 
-<!-- Add screenshots here, for example: ![Dashboard](docs/screenshots/dashboard.png) -->
-
 ## Features
 
 ### Tasks
@@ -12,7 +10,7 @@ A personal task manager built with **Laravel**, **Inertia.js** and **Vue 3**. It
 - Complete and uncomplete tasks with a checkbox
 - Due-date labels: Overdue, Due today, Due tomorrow
 - **Undo after delete:** a deleted task can be restored from the toast, and is removed for good after 7 days
-- Filter by category, priority, due date range and completed; search by title; pagination
+- Filter by category, priority, due date range and uncompleted tasks only; search by title; pagination
 - Keyboard shortcuts: **N** for a new task, **/** to focus the search box, **Esc** to clear it
 
 ### Repeating tasks

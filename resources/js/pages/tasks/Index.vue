@@ -29,7 +29,7 @@ const selectedCategory = ref(props.filters.category ?? 'all');
 const selectedPriority = ref(props.filters.priority ?? 'all');
 const dateFrom = ref(props.filters.date_from ?? '');
 const dateTo = ref(props.filters.date_to ?? '');
-const showCompletedOnly = ref(props.filters.completed === 'true' || props.filters.completed === true);
+const showOpenOnly = ref(props.filters.open === 'true' || props.filters.open === true);
 const search = ref(props.filters.search ?? '');
 
 // Based on what the server actually applied, not on what's typed in the inputs
@@ -37,7 +37,7 @@ const hasActiveFilters = computed(() =>
     Boolean(
         props.filters.category ||
             props.filters.priority ||
-            props.filters.completed ||
+            props.filters.open ||
             props.filters.search ||
             props.filters.date_from ||
             props.filters.date_to,
@@ -80,7 +80,7 @@ function applyFilters() {
         {
             category: selectedCategory.value === 'all' ? undefined : selectedCategory.value,
             priority: selectedPriority.value === 'all' ? undefined : selectedPriority.value,
-            completed: showCompletedOnly.value ? 'true' : undefined,
+            open: showOpenOnly.value ? 'true' : undefined,
             search: search.value.trim() || undefined,
             date_from: dateFrom.value || undefined,
             date_to: dateTo.value || undefined,
@@ -97,7 +97,7 @@ function applyFilters() {
 // Wait 300ms after the last change before sending a request
 let filterTimer: ReturnType<typeof setTimeout>;
 
-watch([selectedCategory, selectedPriority, showCompletedOnly, search, dateFrom, dateTo], () => {
+watch([selectedCategory, selectedPriority, showOpenOnly, search, dateFrom, dateTo], () => {
     clearTimeout(filterTimer);
     filterTimer = setTimeout(applyFilters, 300);
 });
@@ -105,7 +105,7 @@ watch([selectedCategory, selectedPriority, showCompletedOnly, search, dateFrom, 
 function clearFilters() {
     selectedCategory.value = 'all';
     selectedPriority.value = 'all';
-    showCompletedOnly.value = false;
+    showOpenOnly.value = false;
     search.value = '';
     dateFrom.value = '';
     dateTo.value = '';
@@ -185,8 +185,8 @@ onBeforeUnmount(() => clearTimeout(filterTimer));
             </div>
 
             <div class="flex h-9 items-center gap-2 text-sm">
-                <Checkbox id="filter-completed" v-model:checked="showCompletedOnly" class="rounded-full" />
-                <Label for="filter-completed">Completed only</Label>
+                <Checkbox id="filter-open" v-model:checked="showOpenOnly" class="rounded-full" />
+                <Label for="filter-open">Uncompleted only</Label>
             </div>
 
             <div class="relative ml-auto w-full sm:w-64">

@@ -60,17 +60,17 @@ class TaskIndexTest extends TestCase
                 ->where('tasks.data.0.title', 'Urgent one'));
     }
 
-    public function test_it_can_show_completed_tasks_only(): void
+    public function test_it_can_hide_completed_tasks(): void
     {
         $user = User::factory()->create();
 
         $this->makeTask($user, ['title' => 'Open']);
         $this->makeTask($user, ['title' => 'Done', 'is_completed' => true]);
 
-        $this->actingAs($user)->get(route('tasks.index', ['completed' => 'true']))
+        $this->actingAs($user)->get(route('tasks.index', ['open' => 'true']))
             ->assertInertia(fn(Assert $page) => $page
                 ->has('tasks.data', 1)
-                ->where('tasks.data.0.title', 'Done'));
+                ->where('tasks.data.0.title', 'Open'));
     }
 
     public function test_it_searches_by_title(): void
@@ -135,5 +135,40 @@ class TaskIndexTest extends TestCase
 
         $this->actingAs($user)->get(route('tasks.index', ['page' => 5]))
             ->assertRedirect(route('tasks.index', ['page' => 2]));
+    }
+
+    public function test_it_filters_by_a_due_date_range(): void
+    {
+        $user = User::factory()->create();
+
+        $this->makeTask($user, ['title' => 'Too early', 'due_date' => '2026-10-01']);
+        $this->makeTask($user, ['title' => 'In range', 'due_date' => '2026-10-10']);
+        $this->makeTask($user, ['title' => 'Too late', 'due_date' => '2026-10-30']);
+        $this->makeTask($user, ['title' => 'No date']);
+
+        $this->actingAs($user)->get(route('tasks.index', ['date_from' => '2026-10-05', 'date_to' => '2026-10-15']))
+            ->assertInertia(fn(Assert $page) => $page
+                ->has('tasks.data', 1)
+                ->where('tasks.data.0.title', 'In range'));
+    }
+
+    public function test_the_date_range_includes_its_first_and_last_day(): void
+    {
+        $user = User::factory()->create();
+
+        $this->makeTask($user, ['due_date' => '2026-10-05']);
+        $this->makeTask($user, ['due_date' => '2026-10-15']);
+
+        $this->actingAs($user)->get(route('tasks.index', ['date_from' => '2026-10-05', 'date_to' => '2026-10-15']))
+            ->assertInertia(fn(Assert $page) => $page->has('tasks.data', 2));
+    }
+
+    public function test_a_range_that_ends_before_it_starts_is_rejected(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('tasks.index', ['date_from' => '2026-10-15', 'date_to' => '2026-10-05']))
+            ->assertSessionHasErrors('date_to');
     }
 }
